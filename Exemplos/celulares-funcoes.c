@@ -1,5 +1,8 @@
 #include <stdio.h>
 #define TAM_CELULARES 3
+#define CADASTRO_SUCESSO 1
+#define CADASTRO_ERRO 2
+
 
 typedef struct{
     int id;
@@ -11,6 +14,7 @@ int menu_com_retorno_e_paramentros(int tipo);
 int menu_com_retorno();
 void menu_vendas();
 void menu_cadastros();
+int cadastrarCelular(Celular listaCelulares[], int idAtual, int qtdCelulares);
 
 int main(){
     Celular listaCelulares[TAM_CELULARES];
@@ -20,7 +24,7 @@ int main(){
     int qtdCelulares = 0;
     while(!sair){ //sair == 0
         int opcao;
-        opcao = menu_com_retorno_e_paramentros(2);
+        opcao = menu_com_retorno_e_paramentros(1);
 
         switch (opcao){
             case 0: {
@@ -28,13 +32,13 @@ int main(){
                 break;
             }
             case 1: {
-                printf("Digite o ano: ");
-                scanf("%d", &listaCelulares[qtdCelulares].ano);
-                printf("Digite o Preço: ");
-                scanf("%f", &listaCelulares[qtdCelulares].preco);
-                listaCelulares[qtdCelulares].id = idAtual;
-                idAtual++;
-                qtdCelulares++;
+                int resultado = cadastrarCelular(listaCelulares, idAtual, qtdCelulares);
+                if (resultado == CADASTRO_SUCESSO){
+                    qtdCelulares++;
+                    idAtual++;
+                    printf("Cadastro realizado com sucesso\n");
+                }
+
                 break;
             }
             case 2: {
@@ -124,4 +128,16 @@ int menu_com_retorno_e_paramentros(int tipo){
     scanf("%d", &op);
 
     return op;
+}
+
+int cadastrarCelular(Celular listaCelulares[], int idAtual, int qtdCelulares){
+    printf("Digite o ano: ");
+    scanf("%d", &listaCelulares[qtdCelulares].ano);
+    printf("Digite o Preço: ");
+    scanf("%f", &listaCelulares[qtdCelulares].preco);
+    listaCelulares[qtdCelulares].id = idAtual;
+    
+    return CADASTRO_SUCESSO;
+    
+    
 }
