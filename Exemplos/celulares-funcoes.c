@@ -1,12 +1,7 @@
 #include <stdio.h>
 #define TAM_CELULARES 3
-
-#define CADASTRO_SUCESSO -1
-#define CADASTRO_ERRO -2
-#define NAO_ENCONTRADO -3
-#define ATUALIZACAO_SUCESSO -4
-#define LISTA_VAZIA -5
-#define DELETAR_SUCESSO -6
+#define CADASTRO_SUCESSO 1
+#define CADASTRO_ERRO 2
 
 
 typedef struct{
@@ -20,10 +15,7 @@ int menu_com_retorno();
 void menu_vendas();
 void menu_cadastros();
 int cadastrarCelular(Celular listaCelulares[], int idAtual, int qtdCelulares);
-void listarCelulares(Celular listaCelulares[], int qtdCelulares);
-int atualizarCelulares(Celular listaCelulares[], int qtdCelulares);
-int deletarCelular(int qtdCelulares);
-
+void imprimecelular(Celular listaCelulares, int qtdCelulares);
 
 int main(){
     Celular listaCelulares[TAM_CELULARES];
@@ -53,26 +45,57 @@ int main(){
             case 2: {
                 printf("Lista Celulares\n");
                 
-                listarCelulares(listaCelulares, qtdCelulares);
+                imprimecelular(listaCelulares, qtdCelulares);
 
                 break;
             }
             case 3: {
-                int retorno = atualizarCelulares(listaCelulares, qtdCelulares);
-                if (retorno == NAO_ENCONTRADO) printf("Celular não encontrado!\n");
-                else if (retorno == ATUALIZACAO_SUCESSO) printf("Celular atualizado com sucesso \n");
+                printf("Atualizar");
+                printf("Lista Celulares\n");
+                for (int i = 0; i < qtdCelulares; i++)
+                    printf("%d - %d - %f\n", listaCelulares[i].id, listaCelulares[i].ano, listaCelulares[i].preco);
+                printf("Digite o id do celular: \n");
+                int id;
+                scanf("%d", &id);
+                int achou = 0;
+                for (int i = 0; i < qtdCelulares; i++){
+                    if (id == listaCelulares[i].id){
+                        printf("Digite o ano: ");
+                        scanf("%d", &listaCelulares[i].ano);
+                        printf("Digite o Preço: ");
+                        scanf("%f", &listaCelulares[i].preco);
+                        achou = 1;
+                        break;
+                    }
+                }
+                if (!achou) printf("Celular não encontrado!\n");
+                else printf("Celular atualizado com sucesso \n");
 
                 break;
             }
             case 4: {
                 printf("Deletar");
-                int retorno = deletarCelular(qtdCelulares);
-                if (retorno == LISTA_VAZIA) printf("Não existem celulares cadastrados!\n");
-                else if (retorno == DELETAR_SUCESSO) {
-                    printf("Exclusão realizada com sucesso!\n");
-                    qtdCelulares--;
-                }
-                
+
+                for (int i = 0; i < qtdCelulares; i++)
+                    printf("%d - %d - %f\n", listaCelulares[i].id, listaCelulares[i].ano, listaCelulares[i].preco);
+                printf("Digite o id do celular que deseja deletar: \n");
+                int id;
+                scanf("%d", &id);
+                int achou = 0;
+                 for (int i = 0; i < qtdCelulares; i++){
+                    if (id == listaCelulares[i].id){
+                       int j = i;
+                        break;
+                    }
+                 }
+
+                        for(j = ; j < qtdCelulares - 1; j++){
+                           listaCelulares[j] = listacelulares[j + 1];
+
+                        printf("Celular excluído com sucesso"); 
+
+                        }
+                qtdCelulares--;
                 break;
             }
             default: printf("Opção Inválida");
@@ -136,43 +159,10 @@ int cadastrarCelular(Celular listaCelulares[], int idAtual, int qtdCelulares){
     
     return CADASTRO_SUCESSO;
     
-    
-}
+void imprimecelular(Celular listaCelulares, int qtdCelulares){
 
-void listarCelulares(Celular listaCelulares[], int qtdCelulares){
-    printf("Lista Celulares\n");
-
-    for (int i = 0; i < qtdCelulares; i++)
+    for(int = 0; i < qtdCelulares; i++){
         printf("%d - %d - %f\n", listaCelulares[i].id, listaCelulares[i].ano, listaCelulares[i].preco);
-
-}
-
-
-int atualizarCelulares(Celular listaCelulares[], int qtdCelulares){
-
-    listarCelulares(listaCelulares, qtdCelulares);
-
-    printf("Digite o id do celular: \n");
-    int id;
-    scanf("%d", &id);
-    int achou = 0;
-    for (int i = 0; i < qtdCelulares; i++){
-        if (id == listaCelulares[i].id){
-            printf("Digite o ano: ");
-            scanf("%d", &listaCelulares[i].ano);
-            printf("Digite o Preço: ");
-            scanf("%f", &listaCelulares[i].preco);
-            achou = 1;
-            break;
-        }
     }
-    if (!achou) return NAO_ENCONTRADO;
-    else return ATUALIZACAO_SUCESSO;
-
-
-}
-
-int deletarCelular(int qtdCelulares){
-    if (qtdCelulares == 0) return LISTA_VAZIA;
-    else return DELETAR_SUCESSO;
+    
 }
